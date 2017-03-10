@@ -47,7 +47,22 @@ class Kele
         response = self.class.post("/messages", headers: { "authorization" => @auth_token }, body: msg_attributes)
     end
 
-    
+    def create_submission(checkpoint_id, enrollment_id, options = {})
+        #chkpt_attributes available: checkpoint_id, enrollment_id, assignment_branch, assignment_commit_link, comment
+        chkpt_attributes = {
+            checkpoint_id: checkpoint_id, 
+            enrollment_id: enrollment_id 
+        }
+        
+        options.each do |key, value|
+            chkpt_attributes[key] = value
+        end
+        
+        response = self.class.post("/checkpoint_submissions", headers: { "authorization" => @auth_token }, body: chkpt_attributes)
+        
+    end
+
+
     private
     
     def errorHandler(code)
